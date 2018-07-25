@@ -1,9 +1,11 @@
 import xadmin
 
 from .models import Goods, GoodsCategory, GoodsCategoryBrand, GoodsImage, Banner, HotSearchWords
+from .adminforms import GoodsAdminForm
 
 
 class GoodsAdmin:
+    form = GoodsAdminForm
     list_display = ('name', 'goods_sn', 'category', 'click_num', 'sold_num', 'shop_price', 'is_new')
     list_filter = ('category', 'shop_price', 'is_new')
     list_editable = ('is_new',)

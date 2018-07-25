@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
 from django.conf import settings
+from django.conf.urls.static import static
 
 import xadmin
 from xadmin.plugins import xversion
@@ -25,10 +26,10 @@ xadmin.autodiscover()
 xversion.register_models()
 
 urlpatterns = [
-    re_path('media/(?P<path>.*)', serve, {"document_root": settings.MEDIA_ROOT}),
+                  re_path('media/(?P<path>.*)', serve, {"document_root": settings.MEDIA_ROOT}),
+                  path(r'ckeditor/', include('ckeditor_uploader.urls')),
 
-    path('admin/', xadmin.site.urls),
-    path('ueditor/', include('DjangoUeditor.urls')),
+                  path('admin/', xadmin.site.urls),
 
-    path('sadmin/', admin.site.urls),
-]
+                  path('sadmin/', admin.site.urls),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

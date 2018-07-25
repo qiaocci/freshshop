@@ -19,7 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 真正的项目根目录
 BASE_DIR = os.path.dirname(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
-sys.path.append(os.path.join(BASE_DIR, 'extra_apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -42,7 +41,8 @@ INSTALLED_APPS = [
     'trade.apps.TradeConfig',
     'user_operation.apps.UserOperationConfig',
 
-    'DjangoUeditor',
+    'ckeditor',
+    'ckeditor_uploader',
 
     'xadmin',
     'crispy_forms',
@@ -134,3 +134,15 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': 850,
+        'tabSpaces': 4,
+    },
+}
+CKEDITOR_UPLOAD_PATH = 'ckeditor/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+

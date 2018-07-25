@@ -1,5 +1,4 @@
 from django.db import models
-from DjangoUeditor.models import UEditorField
 
 from users.models import BaseModel
 
@@ -51,7 +50,7 @@ class Goods(BaseModel):
     market_price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='市场价')
     shop_price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='销售价')
     goods_brief = models.TextField(verbose_name='简短描述')
-    goods_desc = UEditorField(imagePath='goods/images/', filePath='goods/files/', verbose_name='详细描述')
+    goods_desc = models.TextField(verbose_name='详细描述')
     ship_free = models.BooleanField(default=False, verbose_name='是否免运费')
     goods_front_image = models.ImageField(upload_to='goods/images/', verbose_name='封面图')
     is_new = models.BooleanField(verbose_name='是否新品')
