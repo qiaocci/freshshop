@@ -48,6 +48,11 @@ INSTALLED_APPS = [
     'crispy_forms',
     'reversion',
 
+    'rest_framework',
+    'django_filters',
+
+    'corsheaders',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,6 +62,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -146,3 +153,22 @@ CKEDITOR_CONFIGS = {
 CKEDITOR_UPLOAD_PATH = 'ckeditor/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
+# DEFAULT_FILE_STORAGE = 'django_upyun.storage.UpYunStorage'
+UPYUN_SERVICE = 'freshshop-django'
+UPYUN_USERNAME = 'freshshop'
+UPYUN_PASSWORD = 'freshshop666'
+UPYUN_SERVICE_URL = "http://freshshop-django.test.upcdn.net"
+
+# REST_FRAMEWORK = {
+#     # 'DEFAULT_PERMISSION_CLASSES': [
+#     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     # ],
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+#     'PAGE_SIZE': 3,
+# }
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+
+CORS_ORIGIN_ALLOW_ALL = True

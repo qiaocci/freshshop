@@ -1,7 +1,7 @@
 import xadmin
 
-from .models import Goods, GoodsCategory, GoodsCategoryBrand, GoodsImage, Banner, HotSearchWords
 from .adminforms import GoodsAdminForm
+from .models import Goods, GoodsCategory, GoodsCategoryBrand, GoodsImage, Banner, HotSearchWords
 
 
 class GoodsAdmin:

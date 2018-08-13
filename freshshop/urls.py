@@ -13,21 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import xadmin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
-from django.conf import settings
-from django.conf.urls.static import static
-
-import xadmin
+from rest_framework.routers import DefaultRouter
 from xadmin.plugins import xversion
+
+from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
+
+router = DefaultRouter()
+router.register('goods', GoodsListViewSet, base_name='goods')
+router.register('categorys', GoodsCategoryListViewSet, base_name='category')
 
 xadmin.autodiscover()
 xversion.register_models()
 
 urlpatterns = [
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   re_path('media/(?P<path>.*)', serve, {"document_root": settings.MEDIA_ROOT}),
-                  path(r'ckeditor/', include('ckeditor_uploader.urls')),
+                  path('ckeditor/', include('ckeditor_uploader.urls')),
+                  path('', include(router.urls)),
 
                   path('admin/', xadmin.site.urls),
 

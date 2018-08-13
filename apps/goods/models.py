@@ -14,7 +14,8 @@ class GoodsCategory(BaseModel):
     code = models.CharField(max_length=32, help_text='编码', verbose_name='分类编码')
     desc = models.TextField(help_text='描述', verbose_name='描述')
     category_type = models.PositiveSmallIntegerField(choices=CATEGORY_ITEMS, verbose_name='级别')
-    parent_category = models.ForeignKey('self', null=True, blank=True, on_delete=models.DO_NOTHING, verbose_name='父级分类')
+    parent_category = models.ForeignKey('self', null=True, blank=True, on_delete=models.DO_NOTHING,
+                                        related_name='sub_cat', verbose_name='父级分类')
     is_tab = models.BooleanField(default=False, verbose_name='是否导航')
 
     class Meta:
@@ -52,7 +53,7 @@ class Goods(BaseModel):
     goods_brief = models.TextField(verbose_name='简短描述')
     goods_desc = models.TextField(verbose_name='详细描述')
     ship_free = models.BooleanField(default=False, verbose_name='是否免运费')
-    goods_front_image = models.ImageField(upload_to='goods/images/', verbose_name='封面图')
+    goods_front_image = models.ImageField(upload_to='goods/images/', null=True, blank=True, verbose_name='封面图')
     is_new = models.BooleanField(verbose_name='是否新品')
     is_hot = models.BooleanField(verbose_name='是否热销')
 
