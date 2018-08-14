@@ -20,6 +20,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
 from rest_framework.routers import DefaultRouter
+from rest_framework_jwt.views import obtain_jwt_token
 from xadmin.plugins import xversion
 
 from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
@@ -36,6 +37,7 @@ urlpatterns = [
                   re_path('media/(?P<path>.*)', serve, {"document_root": settings.MEDIA_ROOT}),
                   path('ckeditor/', include('ckeditor_uploader.urls')),
                   path('', include(router.urls)),
+                  path('login/', obtain_jwt_token),
 
                   path('admin/', xadmin.site.urls),
 
