@@ -24,10 +24,12 @@ from rest_framework_jwt.views import obtain_jwt_token
 from xadmin.plugins import xversion
 
 from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
+from users.views import SmsCodeViewset
 
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
 router.register('categorys', GoodsCategoryListViewSet, base_name='category')
+router.register('code', SmsCodeViewset, base_name='code')
 
 xadmin.autodiscover()
 xversion.register_models()
