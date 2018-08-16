@@ -17,7 +17,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """list all goods"""
 
-    queryset = Goods.objects.all()
+    queryset = Goods.objects.all().order_by('id')
     serializer_class = GoodsSerializer
     pagination_class = StandardResultsSetPagination
     filterset_class = GoodsFilter

@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from utils.yunpian import YunPian
 from .models import UserProfile, VerifyCode
-from .serializer import SmsSerializer
+from .serializer import SmsSerializer, UserRegSerializer
 
 
 class CustomBackend(ModelBackend):
@@ -39,8 +39,13 @@ class SmsCodeViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
             'status': status.HTTP_201_CREATED,
         })
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        mobile = serializer.validated_data.get('mobile')
-        return self.send_sms(mobile=mobile)
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     mobile = serializer.validated_data.get('mobile')
+    #     return self.send_sms(mobile=mobile)
+
+
+class UserViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    serializer_class = UserRegSerializer
+    queryset = UserProfile.objects.all()

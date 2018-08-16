@@ -175,7 +175,7 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = ('users.views.CustomBackend',)
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
 }
 
 CORS_ORIGIN_ALLOW_ALL = True

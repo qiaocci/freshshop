@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 class BaseModel(models.Model):
@@ -25,7 +25,7 @@ class UserProfile(AbstractUser, BaseModel):
 
     name = models.CharField(max_length=32, null=True, verbose_name='姓名')
     birthdate = models.DateField(null=True, verbose_name='出生日期')
-    mobile = models.CharField(max_length=11, null=True)
+    mobile = models.CharField(max_length=11, null=True, blank=True, unique=True)
     gender = models.PositiveSmallIntegerField(choices=GENDER_ITEMS, default=0, verbose_name='性别')
     email = models.EmailField(max_length=64, null=True, verbose_name='邮箱')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
