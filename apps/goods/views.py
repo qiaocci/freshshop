@@ -9,13 +9,13 @@ from .serializer import GoodsSerializer, GoodsCategorySerializer
 
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 12
+    page_size = 3
     page_size_query_param = 'page_size'
     max_page_size = 40
 
 
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    """list all goods"""
+    """商品列表"""
 
     queryset = Goods.objects.all().order_by('id')
     serializer_class = GoodsSerializer
@@ -32,3 +32,4 @@ class GoodsCategoryListViewSet(mixins.ListModelMixin,
     """商品分类列表"""
     queryset = GoodsCategory.objects.all().filter(category_type=1)
     serializer_class = GoodsCategorySerializer
+    # authentication_classes = (TokenAuthentication,)

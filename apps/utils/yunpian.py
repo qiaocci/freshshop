@@ -14,4 +14,5 @@ class YunPian:
 
     def send(self, mobile):
         sms_code = self.generate_code()
+        print(sms_code)
         return {'status': 0, 'mobile': mobile, 'sms_code': sms_code}

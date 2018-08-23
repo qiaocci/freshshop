@@ -36,10 +36,10 @@ xadmin.autodiscover()
 xversion.register_models()
 
 urlpatterns = [
-                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   re_path('media/(?P<path>.*)', serve, {"document_root": settings.MEDIA_ROOT}),
                   path('ckeditor/', include('ckeditor_uploader.urls')),
                   path('', include(router.urls)),
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('login/', obtain_jwt_token),
 
                   path('admin/', xadmin.site.urls),
