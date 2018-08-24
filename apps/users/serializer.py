@@ -1,7 +1,7 @@
 import datetime
 import re
+
 from django.utils import timezone
-from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -26,10 +26,16 @@ class SmsSerializer(serializers.Serializer):
         return value
 
 
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('username', 'birthdate', 'gender', 'mobile', 'email')
+
+
 class UserRegSerializer(serializers.ModelSerializer):
     code = serializers.CharField(max_length=6, min_length=6, write_only=True, label='验证码',
                                  error_messages={'blank': '请输入验证码', 'max_length': '验证码长度错误',
-                                                 'min_length': '验证码长度错误'})
+                                                 'min_length': '验证码长度错误'}, help_text='验证码')
     username = serializers.CharField(required=True, allow_blank=False, label='用户名',
                                      validators=[UniqueValidator(queryset=UserProfile.objects.all(), message='用户已存在')])
     password = serializers.CharField(write_only=True, style={'input_type': 'password'}, label='密码')

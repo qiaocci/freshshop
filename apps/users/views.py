@@ -3,13 +3,14 @@ from django.db.models import Q
 from rest_framework import mixins, viewsets
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 from utils.yunpian import YunPian
 from .models import UserProfile, VerifyCode
-from .serializer import SmsSerializer, UserRegSerializer
+from .serializer import SmsSerializer, UserRegSerializer, UserDetailSerializer
 
 
 class CustomBackend(ModelBackend):
@@ -49,10 +50,28 @@ class SmsCodeViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return self.send_sms(mobile=mobile)
 
 
-class UserViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
+class UserViewset(mixins.CreateModelMixin,
+                  mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  viewsets.GenericViewSet):
     serializer_class = UserRegSerializer
     queryset = UserProfile.objects.all()
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_permissions(self):
+        if self.action == 'retrieve':
+            return super().get_permissions()
+        elif self.action == 'create':
+            return []
+        return []
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return UserDetailSerializer
+        elif self.action == 'create':
+            return self.serializer_class
+        return UserDetailSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -69,3 +88,6 @@ class UserViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     def perform_create(self, serializer):
         return serializer.save()
+
+    def get_object(self):
+        return self.request.user

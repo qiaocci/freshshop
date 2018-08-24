@@ -25,7 +25,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from xadmin.plugins import xversion
 
 from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
-from user_operation.views import UserFavViewSet
+from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet
 from users.views import SmsCodeViewset, UserViewset
 
 router = DefaultRouter()
@@ -34,6 +34,7 @@ router.register('categorys', GoodsCategoryListViewSet, base_name='category')
 router.register('code', SmsCodeViewset, base_name='code')
 router.register('users', UserViewset, base_name='users')
 router.register('userfavs', UserFavViewSet, base_name='userfavs')
+router.register('messages', UserLeavingMessageViewSet, base_name='messages')
 
 xadmin.autodiscover()
 xversion.register_models()
@@ -43,7 +44,7 @@ urlpatterns = [
                   path('ckeditor/', include('ckeditor_uploader.urls')),
                   path('', include(router.urls)),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-                  path('docs', include_docs_urls(title='生鲜超市')),
+                  path('docs/', include_docs_urls(title='生鲜超市', public=False)),
                   path('login/', obtain_jwt_token),
 
                   path('admin/', xadmin.site.urls),
