@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from goods.serializer import GoodsSerializer
-from .models import UserFav, UserLeavingMessage
+from .models import UserFav, UserLeavingMessage, UserAddress
 
 
 class UserFavDetailSerializer(serializers.ModelSerializer):
@@ -34,4 +34,12 @@ class UserLeavingMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserLeavingMessage
+        fields = '__all__'
+
+
+class UserAddressSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = UserAddress
         fields = '__all__'

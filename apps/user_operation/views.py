@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from utils.permissions import IsOwnerOrReadOnly
-from .models import UserFav, UserLeavingMessage
-from .serializer import UserFavSerializer, UserFavDetailSerializer, UserLeavingMessageSerializer
+from .models import UserFav, UserLeavingMessage, UserAddress
+from .serializer import UserFavSerializer, UserFavDetailSerializer, UserLeavingMessageSerializer, UserAddressSerializer
 
 
 class UserFavViewSet(mixins.CreateModelMixin,
@@ -41,3 +41,12 @@ class UserLeavingMessageViewSet(mixins.CreateModelMixin,
 
     def get_queryset(self):
         return UserLeavingMessage.objects.filter(user=self.request.user)
+
+
+class UserAddressViewSet(viewsets.ModelViewSet):
+    serializer_class = UserAddressSerializer
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+
+    def get_queryset(self):
+        return UserAddress.objects.filter(user=self.request.user)

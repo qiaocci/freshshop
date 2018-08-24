@@ -25,7 +25,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from xadmin.plugins import xversion
 
 from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
-from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet
+from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet, UserAddressViewSet
 from users.views import SmsCodeViewset, UserViewset
 
 router = DefaultRouter()
@@ -35,6 +35,7 @@ router.register('code', SmsCodeViewset, base_name='code')
 router.register('users', UserViewset, base_name='users')
 router.register('userfavs', UserFavViewSet, base_name='userfavs')
 router.register('messages', UserLeavingMessageViewSet, base_name='messages')
+router.register('address', UserAddressViewSet, base_name='address')
 
 xadmin.autodiscover()
 xversion.register_models()
