@@ -14,7 +14,9 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 40
 
 
-class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin,
+                       mixins.RetrieveModelMixin,
+                       viewsets.GenericViewSet):
     """商品列表"""
 
     queryset = Goods.objects.all().order_by('id')

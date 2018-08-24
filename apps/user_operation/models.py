@@ -1,7 +1,7 @@
 from django.db import models
 
-from users.models import BaseModel, UserProfile
 from goods.models import Goods
+from users.models import BaseModel, UserProfile
 
 
 class UserFav(BaseModel):

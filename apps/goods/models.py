@@ -66,7 +66,7 @@ class Goods(BaseModel):
 
 class GoodsImage(BaseModel):
     """商品轮播图"""
-    goods = models.ForeignKey(Goods, on_delete=models.DO_NOTHING, verbose_name='商品')
+    goods = models.ForeignKey(Goods, on_delete=models.DO_NOTHING, verbose_name='商品', related_name='images')
     image = models.ImageField(upload_to='goods/images/', verbose_name='图片')
 
     class Meta:

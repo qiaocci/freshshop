@@ -6,7 +6,7 @@ from .models import Goods, GoodsCategory, GoodsCategoryBrand, GoodsImage, Banner
 
 class GoodsAdmin:
     form = GoodsAdminForm
-    list_display = ('name', 'goods_sn', 'category', 'click_num', 'sold_num', 'shop_price', 'is_new')
+    list_display = ('id', 'name', 'goods_sn', 'category', 'click_num', 'sold_num', 'shop_price', 'is_new')
     list_filter = ('category', 'shop_price', 'is_new')
     list_editable = ('is_new',)
     search_fields = ('name', 'goods_sn')
