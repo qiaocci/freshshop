@@ -18,6 +18,7 @@ class GoodsCategorySerializers2(serializers.ModelSerializer):
 
 
 class GoodsCategorySerializer(serializers.ModelSerializer):
+    """商品类别"""
     sub_cat = GoodsCategorySerializers2(many=True)
 
     class Meta:

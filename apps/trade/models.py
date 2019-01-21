@@ -8,13 +8,14 @@ class ShoppingCart(BaseModel):
     """购物车"""
     user = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING, verbose_name='用户')
     goods = models.ForeignKey(Goods, on_delete=models.DO_NOTHING, verbose_name='商品')
-    goods_num = models.IntegerField(verbose_name='商品数量')
+    nums = models.IntegerField(verbose_name='商品数量')
 
     class Meta:
         verbose_name = verbose_name_plural = '购物车'
+        unique_together = ('goods', 'user')
 
     def __str__(self):
-        return f'{self.goods.name}:{self.goods_num}'
+        return f'{self.goods.name}:{self.nums}'
 
 
 class OrderInfo(BaseModel):

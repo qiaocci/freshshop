@@ -26,16 +26,18 @@ from xadmin.plugins import xversion
 
 from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
 from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet, UserAddressViewSet
+from trade.views import ShoppingCartViewSet
 from users.views import SmsCodeViewset, UserViewset
 
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
-router.register('categorys', GoodsCategoryListViewSet, base_name='category')
+router.register('categories', GoodsCategoryListViewSet, base_name='category')
 router.register('code', SmsCodeViewset, base_name='code')
 router.register('users', UserViewset, base_name='users')
 router.register('userfavs', UserFavViewSet, base_name='userfavs')
 router.register('messages', UserLeavingMessageViewSet, base_name='messages')
 router.register('address', UserAddressViewSet, base_name='address')
+router.register('shopcarts', ShoppingCartViewSet, base_name='shopcarts')
 
 xadmin.autodiscover()
 xversion.register_models()
