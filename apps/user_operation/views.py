@@ -2,7 +2,7 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+# from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from utils.permissions import IsOwnerOrReadOnly
 from .models import UserFav, UserLeavingMessage, UserAddress
@@ -16,7 +16,7 @@ class UserFavViewSet(mixins.CreateModelMixin,
     queryset = UserFav.objects.all()
     serializer_class = UserFavSerializer
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
-    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    # authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     lookup_field = 'goods_id'
 
     def get_queryset(self):
@@ -37,7 +37,7 @@ class UserLeavingMessageViewSet(mixins.CreateModelMixin,
                                 viewsets.GenericViewSet):
     serializer_class = UserLeavingMessageSerializer
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
-    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    # authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
 
     def get_queryset(self):
         return UserLeavingMessage.objects.filter(user=self.request.user)
@@ -46,7 +46,7 @@ class UserLeavingMessageViewSet(mixins.CreateModelMixin,
 class UserAddressViewSet(viewsets.ModelViewSet):
     serializer_class = UserAddressSerializer
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
-    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    # authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
 
     def get_queryset(self):
         return UserAddress.objects.filter(user=self.request.user)

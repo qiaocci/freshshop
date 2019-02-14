@@ -2,15 +2,17 @@ from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from rest_framework import mixins, viewsets
 from rest_framework import status
-from rest_framework.authentication import SessionAuthentication
+# from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 from utils.yunpian import YunPian
 from .models import UserProfile, VerifyCode
 from .serializer import SmsSerializer, UserRegSerializer, UserDetailSerializer
+
+
+# from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+# from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 
 class CustomBackend(ModelBackend):
@@ -31,23 +33,22 @@ class SmsCodeViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     def send_sms(self, mobile):
         yunpian = YunPian()
-        sms_status = yunpian.send(mobile=mobile)
+        return yunpian.send(mobile=mobile)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        mobile = serializer.validated_data.get('mobile')
+        sms_status = self.send_sms(mobile=mobile)
+
         if sms_status.get('status') != 0:
             return Response({
                 'mobile': sms_status.get('mobile'),
                 'status': status.HTTP_400_BAD_REQUEST
             })
         VerifyCode.objects.create(code=sms_status.get('sms_code'), mobile=mobile)
-        return Response({
-            'mobile': sms_status.get('mobile'),
-            'status': status.HTTP_201_CREATED,
-        })
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        mobile = serializer.validated_data.get('mobile')
-        return self.send_sms(mobile=mobile)
+        headers = self.get_success_headers(serializer.data)
+        return Response({'mobile': sms_status.get('mobile'), 'status': status.HTTP_201_CREATED, 'headers': headers})
 
 
 class UserViewset(mixins.CreateModelMixin,
@@ -56,7 +57,7 @@ class UserViewset(mixins.CreateModelMixin,
                   viewsets.GenericViewSet):
     serializer_class = UserRegSerializer
     queryset = UserProfile.objects.all()
-    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    # authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def get_permissions(self):
@@ -79,9 +80,9 @@ class UserViewset(mixins.CreateModelMixin,
 
         user = self.perform_create(serializer)
         re_dict = serializer.data
-        payload = jwt_payload_handler(user)
-        re_dict['token'] = jwt_encode_handler(payload)
-        re_dict['name'] = user.name if user.name else user.username
+        # payload = jwt_payload_handler(user)
+        # re_dict['token'] = jwt_encode_handler(payload)
+        # re_dict['name'] = user.name if user.name else user.username
 
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)

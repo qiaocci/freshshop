@@ -2,6 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .filters import GoodsFilter
 from .models import Goods, GoodsCategory
@@ -23,6 +24,7 @@ class GoodsListViewSet(mixins.ListModelMixin,
     serializer_class = GoodsSerializer
     pagination_class = StandardResultsSetPagination
     filterset_class = GoodsFilter
+    authentication_classes = (JWTAuthentication,)
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('name', 'goods_brief', 'goods_desc')
     ordering_fields = ('sold_num', 'shop_price')
