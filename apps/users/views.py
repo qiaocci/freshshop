@@ -2,8 +2,11 @@ from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from rest_framework import mixins, viewsets
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 from utils.yunpian import YunPian
 from .models import UserProfile, VerifyCode
@@ -52,7 +55,7 @@ class UserViewSet(mixins.CreateModelMixin,
                   viewsets.GenericViewSet):
     serializer_class = UserRegSerializer
     queryset = UserProfile.objects.all()
-    # authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def get_permissions(self):
@@ -75,8 +78,9 @@ class UserViewSet(mixins.CreateModelMixin,
 
         user = self.perform_create(serializer)
         re_dict = serializer.data
+        payload = jwt_payload_handler(user)
+        re_dict["token"] = jwt_encode_handler(payload)
         re_dict['name'] = user.name if user.name else user.username
-        # re_dict['token'] = Token.for_user(user)
 
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)

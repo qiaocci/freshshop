@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-# from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from utils.permissions import IsOwnerOrReadOnly
 from .models import ShoppingCart
@@ -17,7 +17,7 @@ class ShoppingCartViewSet(viewsets.ModelViewSet):
         加入购物车
     """
     serializer_class = ShoppingCartSerializer
-    # authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     lookup_field = 'goods_id'
 

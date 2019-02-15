@@ -6,7 +6,7 @@ django-crispy-forms==1.7.2
 django-filter==2.0.0
 django-guardian==1.4.9
 djangorestframework==3.8.2
-djangorestframework-simplejwt==3.3
+djangorestframework-jwt==1.11.0
 Markdown==2.6.11
 Pillow==5.2.0
 xadmin==2.0.1

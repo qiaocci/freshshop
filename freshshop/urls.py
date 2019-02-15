@@ -21,13 +21,13 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
+from rest_framework_jwt.views import obtain_jwt_token
 from xadmin.plugins import xversion
 
 from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
-from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet, UserAddressViewSet
 from trade.views import ShoppingCartViewSet
+from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet, UserAddressViewSet
 from users.views import SmsCodeViewSet, UserViewSet
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
@@ -54,8 +54,6 @@ urlpatterns = [
                   path('sadmin/', admin.site.urls),
 
                   # jwt登录
-                  path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-                  path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-                  path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+                  path('login/', obtain_jwt_token, name='login'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
