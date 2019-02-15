@@ -60,13 +60,15 @@ class UserViewSet(mixins.CreateModelMixin,
 
     def get_permissions(self):
         if self.action == 'retrieve':
-            return super().get_permissions()
+            """个人中心获取用户详情时，必须是登录状态"""
+            return [IsAuthenticated(), ]
         elif self.action == 'create':
             return []
         return []
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
+            """个人中心获取用户详情时，使用的serializer"""
             return UserDetailSerializer
         elif self.action == 'create':
             return self.serializer_class
@@ -88,5 +90,5 @@ class UserViewSet(mixins.CreateModelMixin,
     def perform_create(self, serializer):
         return serializer.save()
 
-    def get_object(self):
-        return self.request.user
+    # def get_object(self):
+    #     return self.request.user

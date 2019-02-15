@@ -24,8 +24,10 @@ class UserFavViewSet(mixins.CreateModelMixin,
 
     def get_serializer_class(self):
         if self.action == 'list':
+            """用户收藏列表页"""
             return UserFavDetailSerializer
         elif self.action == 'create':
+            """用户收藏操作"""
             return UserFavSerializer
 
         return UserFavSerializer

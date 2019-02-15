@@ -6,6 +6,7 @@ from .models import UserFav, UserLeavingMessage, UserAddress
 
 
 class UserFavDetailSerializer(serializers.ModelSerializer):
+    """用户收藏列表"""
     goods = GoodsSerializer()
 
     class Meta:
@@ -14,6 +15,7 @@ class UserFavDetailSerializer(serializers.ModelSerializer):
 
 
 class UserFavSerializer(serializers.ModelSerializer):
+    """用户收藏操作"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:

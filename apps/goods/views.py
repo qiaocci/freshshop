@@ -17,7 +17,10 @@ class StandardResultsSetPagination(PageNumberPagination):
 class GoodsListViewSet(mixins.ListModelMixin,
                        mixins.RetrieveModelMixin,
                        viewsets.GenericViewSet):
-    """商品列表"""
+    """商品列表
+        list: 商品列表
+        retrieve: 商品详情
+    """
 
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
