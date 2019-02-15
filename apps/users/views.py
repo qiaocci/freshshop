@@ -2,17 +2,12 @@ from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from rest_framework import mixins, viewsets
 from rest_framework import status
-# from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from utils.yunpian import YunPian
 from .models import UserProfile, VerifyCode
 from .serializer import SmsSerializer, UserRegSerializer, UserDetailSerializer
-
-
-# from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-# from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 
 class CustomBackend(ModelBackend):
@@ -27,7 +22,7 @@ class CustomBackend(ModelBackend):
             return None
 
 
-class SmsCodeViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
+class SmsCodeViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """发送验证码"""
     serializer_class = SmsSerializer
 
@@ -51,7 +46,7 @@ class SmsCodeViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return Response({'mobile': sms_status.get('mobile'), 'status': status.HTTP_201_CREATED, 'headers': headers})
 
 
-class UserViewset(mixins.CreateModelMixin,
+class UserViewSet(mixins.CreateModelMixin,
                   mixins.RetrieveModelMixin,
                   mixins.UpdateModelMixin,
                   viewsets.GenericViewSet):
@@ -80,9 +75,8 @@ class UserViewset(mixins.CreateModelMixin,
 
         user = self.perform_create(serializer)
         re_dict = serializer.data
-        # payload = jwt_payload_handler(user)
-        # re_dict['token'] = jwt_encode_handler(payload)
-        # re_dict['name'] = user.name if user.name else user.username
+        re_dict['name'] = user.name if user.name else user.username
+        # re_dict['token'] = Token.for_user(user)
 
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)

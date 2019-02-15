@@ -21,20 +21,19 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
-# from rest_framework_jwt.views import obtain_jwt_token
 from xadmin.plugins import xversion
 
 from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
 from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet, UserAddressViewSet
 from trade.views import ShoppingCartViewSet
-from users.views import SmsCodeViewset, UserViewset
+from users.views import SmsCodeViewSet, UserViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
 router.register('categories', GoodsCategoryListViewSet, base_name='category')
-router.register('code', SmsCodeViewset, base_name='code')
-router.register('users', UserViewset, base_name='users')
+router.register('code', SmsCodeViewSet, base_name='code')
+router.register('users', UserViewSet, base_name='users')
 router.register('userfavs', UserFavViewSet, base_name='userfavs')
 router.register('messages', UserLeavingMessageViewSet, base_name='messages')
 router.register('address', UserAddressViewSet, base_name='address')
@@ -49,7 +48,6 @@ urlpatterns = [
                   path('', include(router.urls)),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('docs/', include_docs_urls(title='生鲜超市', public=False)),
-                  # path('login/', obtain_jwt_token),
 
                   path('admin/', xadmin.site.urls),
 
