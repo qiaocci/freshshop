@@ -22,3 +22,4 @@ fabfile.py
 media/
 
 .mypy_cache/
+apps/trade/keys/
