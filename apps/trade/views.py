@@ -97,7 +97,7 @@ class AlipayView(APIView):
         if verify_re is True:
             order_sn = processed_dict.get('out_trade_no', None)
             trade_no = processed_dict.get('trade_no', None)
-            trade_status = processed_dict.get('trade_status', 'SUCCESS')
+            trade_status = processed_dict.get('trade_status', 'TRADE_SUCCESS')
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
@@ -144,7 +144,7 @@ class AlipayView(APIView):
             # 支付宝系统交易流水号
             trade_no = processed_dict.get('trade_no', None)
             # 交易状态
-            trade_status = processed_dict.get('trade_status', 'SUCCESS')
+            trade_status = processed_dict.get('trade_status', 'TRADE_SUCCESS')
 
             # 查询数据库中订单记录
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)

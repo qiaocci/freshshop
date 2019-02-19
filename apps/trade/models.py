@@ -21,9 +21,11 @@ class ShoppingCart(BaseModel):
 class OrderInfo(BaseModel):
     """订单"""
     PAY_STATUS = [
-        ('SUCCESS', '成功'),
-        ('CANCEL', '取消'),
-        ('PAYING', '待支付'),
+        ("TRADE_SUCCESS", "成功"),
+        ("TRADE_CLOSED", "超时关闭"),
+        ("WAIT_BUYER_PAY", "交易创建"),
+        ("TRADE_FINISHED", "交易结束"),
+        ("paying", "待支付"),
     ]
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='用户')
     order_sn = models.CharField(max_length=13, null=True, unique=True, verbose_name='订单号')
