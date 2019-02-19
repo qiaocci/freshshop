@@ -25,7 +25,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from xadmin.plugins import xversion
 
 from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
-from trade.views import ShoppingCartViewSet,OrderInfoViewSet
+from trade.views import ShoppingCartViewSet, OrderInfoViewSet, AlipayView
 from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet, UserAddressViewSet
 from users.views import SmsCodeViewSet, UserViewSet
 
@@ -49,7 +49,7 @@ urlpatterns = [
                   path('', include(router.urls)),
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('docs/', include_docs_urls(title='生鲜超市', public=False)),
-
+                  path('alipay/return/', AlipayView.as_view()),
                   path('admin/', xadmin.site.urls),
 
                   path('sadmin/', admin.site.urls),

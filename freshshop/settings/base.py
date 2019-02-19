@@ -177,3 +177,11 @@ JWT_AUTH = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+# 支付宝相关
+APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, "apps/trade/keys/rsa_private_key.txt")
+ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, "apps/trade/keys/alipay_keys.txt")
+APPID = "2016092700609074"
+APP_NOTIRY_URL = "http://freshshop.free.idcfengye.com/alipay/return/"
+ALIPAY_DEBUG = True
+RETURN_URL = "http://freshshop.free.idcfengye.com/alipay/return/"

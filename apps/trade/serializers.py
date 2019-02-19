@@ -1,9 +1,11 @@
 import random
 import time
 
+from django.conf import settings
 from rest_framework import serializers
 
 from goods.serializer import GoodsSerializer
+from utils.alipay import AliPay
 from .models import ShoppingCart, Goods, OrderInfo, OrderGoods
 
 
@@ -63,6 +65,26 @@ class OrderInfoSerializer(serializers.ModelSerializer):
     order_sn = serializers.CharField(read_only=True)
     trade_no = serializers.CharField(read_only=True)
     pay_time = serializers.DateTimeField(read_only=True)
+    alipay_url = serializers.SerializerMethodField(read_only=True)
+
+    def get_alipay_url(self, obj):
+        alipay = AliPay(
+            appid=settings.APPID,
+            app_notify_url=settings.APP_NOTIRY_URL,
+            app_private_key_path=settings.APP_PRIVATE_KEY_PATH,
+            alipay_public_key_path=settings.ALIPAY_PUBLIC_KEY_PATH,
+            debug=settings.ALIPAY_DEBUG,  # 默认False,
+            return_url=settings.RETURN_URL
+        )
+
+        url = alipay.direct_pay(
+            subject=obj.order_sn,
+            out_trade_no=obj.order_sn,
+            total_amount=obj.order_mount,
+        )
+        re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
+
+        return re_url
 
     def generate_goods_sn(self):
         return '{ts}{userid}{randstr}'.format(ts=time.strftime('%Y%m%d%H%M%S'),

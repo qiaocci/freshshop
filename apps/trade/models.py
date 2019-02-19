@@ -1,7 +1,7 @@
 from django.db import models
 
-from users.models import UserProfile, BaseModel
 from goods.models import Goods
+from users.models import UserProfile, BaseModel
 
 
 class ShoppingCart(BaseModel):
@@ -30,7 +30,7 @@ class OrderInfo(BaseModel):
     trade_no = models.CharField(max_length=13, null=True, unique=True, verbose_name='外部交易号')
     pay_status = models.CharField(max_length=32, default='paying', choices=PAY_STATUS, verbose_name='支付状态')
     post_script = models.CharField(max_length=128, verbose_name='订单留言')
-    order_mount = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='订单金额')
+    order_mount = models.FloatField(default=0.0, verbose_name='订单金额')
     pay_time = models.DateTimeField(null=True, blank=True, verbose_name='订单时间')
 
     # 用户信息
