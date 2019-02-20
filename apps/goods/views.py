@@ -3,7 +3,7 @@ from rest_framework import mixins
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from .filters import GoodsFilter
 from .models import Goods, GoodsCategory, Banner, HotSearchWords
 from .serializer import GoodsSerializer, GoodsCategorySerializer, BannerSerializer, HotWordsSerializer, \
@@ -30,6 +30,7 @@ class GoodsListViewSet(CacheResponseMixin,
     serializer_class = GoodsSerializer
     pagination_class = StandardResultsSetPagination
     filterset_class = GoodsFilter
+    throttle_classes = (UserRateThrottle, AnonRateThrottle)
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('name', 'goods_brief', 'goods_desc')
     ordering_fields = ('sold_num', 'shop_price')

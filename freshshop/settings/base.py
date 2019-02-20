@@ -167,7 +167,17 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+    # 限速设置
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '20/minute',  # 每分钟可以请求两次
+        'user': '30/minute'  # 每分钟可以请求五次
+    }
+
 }
 
 # AUTHENTICATION_BACKENDS = ('users.views.CustomBackend',)
@@ -187,7 +197,7 @@ ALIPAY_DEBUG = True
 RETURN_URL = "http://freshshop.free.idcfengye.com/alipay/return/"
 
 REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 5  # 5s过期
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 5,  # 5s过期
 }
 
 CACHES = {
