@@ -8,6 +8,7 @@ from .filters import GoodsFilter
 from .models import Goods, GoodsCategory, Banner, HotSearchWords
 from .serializer import GoodsSerializer, GoodsCategorySerializer, BannerSerializer, HotWordsSerializer, \
     IndexCategorySerializer
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -16,7 +17,8 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 40
 
 
-class GoodsListViewSet(mixins.ListModelMixin,
+class GoodsListViewSet(CacheResponseMixin,
+                       mixins.ListModelMixin,
                        mixins.RetrieveModelMixin,
                        viewsets.GenericViewSet):
     """商品列表

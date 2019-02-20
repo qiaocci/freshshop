@@ -185,3 +185,17 @@ APPID = "2016092700609074"
 APP_NOTIRY_URL = "http://freshshop.free.idcfengye.com/alipay/return/"
 ALIPAY_DEBUG = True
 RETURN_URL = "http://freshshop.free.idcfengye.com/alipay/return/"
+
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 5  # 5s过期
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

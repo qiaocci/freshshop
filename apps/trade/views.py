@@ -57,7 +57,7 @@ class ShoppingCartViewSet(viewsets.ModelViewSet):
         nums = saved_record.nums - existed_nums
         goods = saved_record.goods
         goods.goods_num -= nums
-        goods.save()    
+        goods.save()
 
 
 class OrderInfoViewSet(mixins.CreateModelMixin,
