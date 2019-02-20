@@ -24,7 +24,8 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 from xadmin.plugins import xversion
 
-from goods.views import GoodsListViewSet, GoodsCategoryListViewSet
+from goods.views import GoodsListViewSet, GoodsCategoryListViewSet, BannerViewSet, HotSearchsViewset, \
+    IndexCategoryViewset
 from trade.views import ShoppingCartViewSet, OrderInfoViewSet, AlipayView
 from user_operation.views import UserFavViewSet, UserLeavingMessageViewSet, UserAddressViewSet
 from users.views import SmsCodeViewSet, UserViewSet
@@ -39,6 +40,9 @@ router.register('messages', UserLeavingMessageViewSet, base_name='messages')
 router.register('address', UserAddressViewSet, base_name='address')
 router.register('shopcarts', ShoppingCartViewSet, base_name='shopcarts')
 router.register('orders', OrderInfoViewSet, base_name='orders')
+router.register('banners', BannerViewSet, base_name="banners")
+router.register('hotsearchs', HotSearchsViewset, base_name="hotsearchs")
+router.register('indexgoods', IndexCategoryViewset, base_name="indexgoods")
 
 xadmin.autodiscover()
 xversion.register_models()

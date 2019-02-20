@@ -28,7 +28,7 @@ class GoodsCategory(BaseModel):
 class GoodsCategoryBrand(BaseModel):
     """一级分类下的品牌名称"""
     name = models.CharField(max_length=64, verbose_name='名称')
-    category = models.ForeignKey(GoodsCategory, on_delete=models.DO_NOTHING, verbose_name='商品分类')
+    category = models.ForeignKey(GoodsCategory, related_name='brands', on_delete=models.DO_NOTHING, verbose_name='商品分类')
     desc = models.TextField(verbose_name='描述')
     image = models.ImageField(max_length=200, upload_to='brands/', verbose_name='图标')
 
@@ -85,6 +85,7 @@ class Banner(BaseModel):
 
     class Meta:
         verbose_name = verbose_name_plural = '轮播商品'
+        ordering = ('index',)
 
     def __str__(self):
         return self.goods.name
@@ -100,3 +101,18 @@ class HotSearchWords(BaseModel):
 
     def __str__(self):
         return self.keywords
+
+
+class IndexAd(models.Model):
+    """
+    首页类别标签右边展示的商品广告
+    """
+    category = models.ForeignKey(GoodsCategory, on_delete=models.CASCADE, related_name='category', verbose_name="商品类目")
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='goods')
+
+    class Meta:
+        verbose_name = '首页广告'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.goods.name
