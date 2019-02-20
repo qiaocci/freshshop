@@ -54,8 +54,8 @@ urlpatterns = [
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('docs/', include_docs_urls(title='生鲜超市', public=False)),
                   path('alipay/return/', AlipayView.as_view()),
+                  path('', include('social_django.urls', namespace='social')),
                   path('admin/', xadmin.site.urls),
-
                   path('sadmin/', admin.site.urls),
 
                   # jwt登录
