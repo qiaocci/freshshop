@@ -38,6 +38,27 @@ class ShoppingCartViewSet(viewsets.ModelViewSet):
             return ShoppingCartDetailSerializer
         return ShoppingCartSerializer
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        goods = instance.goods
+        goods.goods_num -= instance.nums
+        goods.save()
+
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        goods.save()
+        instance.delete()
+
+    def perform_update(self, serializer):
+        existed_record = ShoppingCart.objects.get(id=serializer.instance.id)
+        existed_nums = existed_record.nums
+        saved_record = serializer.save()
+        nums = saved_record.nums - existed_nums
+        goods = saved_record.goods
+        goods.goods_num -= nums
+        goods.save()    
+
 
 class OrderInfoViewSet(mixins.CreateModelMixin,
                        mixins.RetrieveModelMixin,
