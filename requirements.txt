@@ -5,7 +5,7 @@ django-cors-headers==2.4.0
 django-crispy-forms==1.7.2
 django-filter==2.0.0
 django-guardian==1.4.9
-djangorestframework==3.8.2
+djangorestframework==3.9.1
 djangorestframework-jwt==1.11.0
 drf-extensions==0.4.0
 Markdown==2.6.11
